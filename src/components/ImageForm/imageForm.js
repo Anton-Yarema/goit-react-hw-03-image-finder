@@ -6,7 +6,6 @@ import ImageGallery from 'components/ImageGallery';
 import Button from 'components/Button';
 import Modal from 'components/Modal';
 import Loader from 'components/Loader/';
-import PropTypes from 'prop-types';
 
 class ImageForm extends Component {
   state = {
@@ -78,8 +77,5 @@ class ImageForm extends Component {
   }
 }
 
-ImageForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-};
 
 export default ImageForm;
