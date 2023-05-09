@@ -47,6 +47,7 @@ class ImageForm extends Component {
       this.setState(prevState => ({
         images: [...prevState.images, ...response.data.hits],
         loading: false,
+        response: response,
       }));
     } catch (error) {
       console.log(error);
@@ -61,13 +62,19 @@ class ImageForm extends Component {
   };
 
   render() {
-    const { images, showModal, selectedImage } = this.state;
+    const { images, showModal, selectedImage, loading, response } = this.state;
+    const totalPage = response
+      ? this.state.response.data.totalHits /
+        this.state.response.data.hits.length
+      : 0;
     return (
       <div>
         <SearchBar onSubmit={this.handleFormSubmit} />
         {this.state.loading && <Loader />}
         <ImageGallery images={images} onImageClick={this.toggleModal} />
-        {images.length > 0 && <Button onClick={this.loadMore} />}
+        {totalPage > 1 && !loading && images.length !== 0 && (
+          <Button onClick={this.loadMore} />
+        )}
         <ToastContainer autoClose={3000} />
         {showModal && (
           <Modal onClose={this.toggleModal} image={selectedImage} />
@@ -76,6 +83,5 @@ class ImageForm extends Component {
     );
   }
 }
-
 
 export default ImageForm;
